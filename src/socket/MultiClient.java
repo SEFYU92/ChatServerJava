@@ -27,12 +27,19 @@ public class MultiClient implements Runnable {
         while(true)
         {
             try {
+            clientsocket = serversocket.accept();
+            } catch (IOException ex) {
+            Logger.getLogger(MultiClient.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            Thread thread = new Thread(new CHandler(clientsocket));          //Test multi connexion
+            thread.start();
+            /*try {
                 clientsocket = serversocket.accept();
                 System.out.println("Client connecté !");
                 clientsocket.close();
             } catch (IOException ex) {
                 Logger.getLogger(MultiClient.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
         }
     }
 }

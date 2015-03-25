@@ -43,7 +43,7 @@ public class Server {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /*
     public void read(Socket clientsocket)
     {
         BufferedReader reader;
@@ -56,4 +56,5 @@ public class Server {
         } catch (IOException ex) {
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
     }
-}
+    */
+    }

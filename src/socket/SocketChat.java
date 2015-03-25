@@ -28,6 +28,7 @@ public class SocketChat {
         } catch (UnknownHostException ex) {
             Logger.getLogger(Socket.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         if(args[0].equals("s"))
         {
             Server server = new Server(address,Integer.parseInt(args[1]));
