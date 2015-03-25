@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 public class Client {
     int port;
     InetAddress address; 
+    Socket client;
     public Client(InetAddress address,int port)
     {
         this.port = port;
@@ -28,12 +30,14 @@ public class Client {
     
     public void start()
     {
-        Socket  client = null;
         try
         {
             client = new Socket(this.address,this.port);
-            this.write(client);
-            client.close();
+            while(client.isConnected())
+            {    
+                this.write(client);
+            }
+            //client.close();
         }
         catch (IOException ex)
         {
@@ -43,9 +47,17 @@ public class Client {
     
     public void write(Socket socket)
     {
+        Scanner reader = new Scanner(System.in);
         PrintWriter writer;
-        String message = "Salut !";
-        
+        String message = reader.nextLine();
+        if(message.contentEquals("exit"))
+        {
+            try {
+            client.close();
+            } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         try {
         writer = new PrintWriter(new PrintWriter(socket.getOutputStream()));
         writer.println(message);

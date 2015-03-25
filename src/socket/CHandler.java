@@ -22,23 +22,33 @@ public class CHandler implements Runnable{
     public void read(Socket clientsocket)
     {
         BufferedReader reader;
-        String message;
-        
+        String message=null;
         try {
         reader=new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));
         message=reader.readLine();
         System.out.println("Message :"+message);
         } catch (IOException ex) {
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
+        if(message.contentEquals("exit"))
+        {
+            try {
+            clientsocket.close();
+            } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     public void run()
     {                 
         System.out.println("Client connecté !");
-        this.read(client_socket);
-        try {
+        while(client_socket.isConnected())
+        {
+            this.read(client_socket);
+        }
+        /*try {
         client_socket.close();
         } catch (IOException ex) {
         Logger.getLogger(CHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }
 }
