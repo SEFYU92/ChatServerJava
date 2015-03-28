@@ -7,7 +7,9 @@ package socket;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.*;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +30,7 @@ public class MultiClient implements Runnable {
         {
             try {
             clientsocket = serversocket.accept();
+            welcome(clientsocket);
             } catch (IOException ex) {
             Logger.getLogger(MultiClient.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -41,5 +44,15 @@ public class MultiClient implements Runnable {
                 Logger.getLogger(MultiClient.class.getName()).log(Level.SEVERE, null, ex);
             }*/
         }
+    }
+    public void welcome(Socket client_socket)
+    {
+        PrintWriter writer;
+        try {
+        writer = new PrintWriter(new PrintWriter(client_socket.getOutputStream()));
+        writer.println("Welcome ! you are connected to the Server !");
+        writer.flush();
+        } catch (IOException ex) {
+        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
     }
 }

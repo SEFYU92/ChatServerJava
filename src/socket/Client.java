@@ -34,7 +34,8 @@ public class Client {
         {
             client = new Socket(this.address,this.port);
             while(client.isConnected())
-            {    
+            {
+                this.read(client);
                 this.write(client);
             }
             //client.close();
@@ -63,5 +64,18 @@ public class Client {
         writer.println(message);
         writer.flush();
         } catch (IOException ex) {
-        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}}
+        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
+    }
+    
+    public void read(Socket clientsocket)
+    {
+        BufferedReader reader;
+        String message=null;
+        try {
+        reader=new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));
+        message=reader.readLine();
+        System.out.println("Received :"+message);
+        } catch (IOException ex) {
+        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
+    }
 }
