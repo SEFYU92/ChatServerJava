@@ -80,6 +80,7 @@ public class AbstractMultichatServer implements MultichatServer {
             bbyte.get(bytes);
             String v = new String( bytes, Charset.forName("UTF-8") );
             System.out.println(v);
+            
             bbyte.compact();
             System.out.println("is readable : e");
         }
