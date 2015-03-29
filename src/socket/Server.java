@@ -17,12 +17,14 @@ import java.util.logging.Logger;
  */
 public class Server {
     int port;
-    InetAddress adress; 
+    InetAddress adress;
+    
     public Server(InetAddress adress,int port)
     {
         this.port = port;
         this.adress = adress;
     }
+    
     public void start()
     {
         ServerSocket  serversocket;
@@ -32,29 +34,10 @@ public class Server {
             
             Thread thread = new Thread(new MultiClient(serversocket));          //Test multi connexion
             thread.start();
-            
-            /*Socket  clientsocket = serversocket.accept();                     //Chat client unique
-            System.out.println("Client connecté !");
-            this.read(clientsocket);
-            clientsocket.close();*/
         }
         catch (IOException ex)
         {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /*
-    public void read(Socket clientsocket)
-    {
-        BufferedReader reader;
-        String message;
-        
-        try {
-        reader=new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));
-        message=reader.readLine();
-        System.out.println("Message :"+message);
-        } catch (IOException ex) {
-        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
-    }
-    */
-    }
+}
