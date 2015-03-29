@@ -30,6 +30,7 @@ public class Client {
     
     public void start()
     {
+        int i = 0;
         try
         {
             client = new Socket(this.address,this.port);

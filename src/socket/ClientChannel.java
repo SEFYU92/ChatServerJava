@@ -44,12 +44,14 @@ public class ClientChannel {
         {
             SocketChannel client = SocketChannel.open();
             client.connect(new InetSocketAddress(this.address, this.port));
-            //client = new SocketChannel(this.address,this.port);
-           // System.out.println("Mon client est sur le point de se connecter");
-            while(client.isConnected())
+            client.configureBlocking(false);
+            
+            //while(client.isConnected())
+            if(client.isConnected())
             {
-                this.read(client);
-                this.write(client);
+               this.read(client);
+                //System.out.println("in while(client.isConnected)");
+            //    this.write(client);
             }
             //client.close();
         }
@@ -64,9 +66,9 @@ public class ClientChannel {
         Scanner reader = new Scanner(System.in);
         //PrintWriter writer
         ByteBuffer buf = ByteBuffer.allocate(1000);
-
         
-        String message = reader.nextLine();
+        
+        String message = "kikou!!!!!!";//reader.nextLine();
         if(message.contentEquals("exit"))
         {
             try {
@@ -79,29 +81,43 @@ public class ClientChannel {
         try {
         //writer = new PrintWriter(new PrintWriter(socket.getOutputStream()));
        // writer.println(message);
-       // writer.flush();        buf.clear();
+       //writer.flush();       
+            buf.clear();
             buf.put(message.getBytes());
             buf.flip();
             while(buf.hasRemaining()) {
                 socket.write(buf);
+              //  System.out.println("in while(buf.hasRemaining)");
             }
+            buf.compact();
         } catch (IOException ex) {
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
     }
     
     public void read(SocketChannel clientsocket)
     {
-        ByteBuffer buf = ByteBuffer.allocate(1000);
+        System.out.println("debut de read()");
+        byte bytes[] = new byte[255];
+        ByteBuffer buf = ByteBuffer.allocate(100);
         CharBuffer message=null;
         try {
         //reader=new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));
+            System.out.println("avant .read()");
             clientsocket.read(buf);
+            System.out.println("après .read()");
         //message=reader.readLine();
             buf.flip();
             message = Charset.defaultCharset().decode(buf);
-            System.out.println(buf);
+            System.out.println("essaie sans ranger dans un string : "+Charset.defaultCharset().decode(buf));
+            //buf.get(bytes); buf.
+            //System.out.println("miaou");
+            //String v = new String( bytes, Charset.forName("UTF-8") );
+            //System.out.println("v : "+v);
+            
+            System.out.println("message : "+message);
             buf.compact();
         System.out.println("Received :"+message);
+            
         } catch (IOException ex) {
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
     }
