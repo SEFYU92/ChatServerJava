@@ -22,6 +22,7 @@ public class SocketChat {
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
         InetAddress address = null;
+        InetAddress adgroup = InetAddress.getByName("228.5.6.7");
         try {
         //address = InetAddress.getByName("www.google.com");
         address = InetAddress.getLocalHost();
@@ -36,6 +37,10 @@ public class SocketChat {
         }else if(args[0].equals("c"))
         {
             Client client = new Client(address,Integer.parseInt(args[1]));
+            client.start();
+        }else if(args[0].equals("mcc"))
+        {
+            MCClient client = new MCClient(Integer.parseInt(args[1]),adgroup);
             client.start();
         }
     }
