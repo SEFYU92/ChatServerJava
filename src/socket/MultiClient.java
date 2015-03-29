@@ -29,7 +29,9 @@ public class MultiClient implements Runnable {
         while(true)
         {
             try {
+                System.out.println("1");
             clientsocket = serversocket.accept();
+            System.out.println("2");
             welcome(clientsocket);
             } catch (IOException ex) {
             Logger.getLogger(MultiClient.class.getName()).log(Level.SEVERE, null, ex);

@@ -30,13 +30,14 @@ public class SocketChat {
         }
         
         if(args[0].equals("s"))
-        {
+       {
             Server server = new Server(address,Integer.parseInt(args[1]));
             server.start();
-        }else if(args[0].equals("c"))
+       }else if(args[0].equals("c"))
         {
             Client client = new Client(address,Integer.parseInt(args[1]));
             client.start();
         }
+      
     }
 }

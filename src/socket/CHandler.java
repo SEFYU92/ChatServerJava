@@ -21,6 +21,7 @@ public class CHandler implements Runnable{
     }
     public void read(Socket clientsocket)
     {
+        System.out.println("proue");
         BufferedReader reader;
         String message=null;
         try {
