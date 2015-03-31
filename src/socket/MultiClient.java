@@ -10,9 +10,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.*;
 import java.util.Scanner;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  *
  * @author Youssef
@@ -20,33 +20,28 @@ import java.util.logging.Logger;
 public class MultiClient implements Runnable {
     ServerSocket serversocket;
     Socket clientsocket;
+    Vector tabClients = new Vector();
+    
     public MultiClient(ServerSocket serversocket)
     {
         this.serversocket=serversocket;
     }
+    
     public void run()
     {
         while(true)
         {
             try {
-                System.out.println("1");
             clientsocket = serversocket.accept();
-            System.out.println("2");
-            welcome(clientsocket);
+            this.welcome(clientsocket);
             } catch (IOException ex) {
             Logger.getLogger(MultiClient.class.getName()).log(Level.SEVERE, null, ex);
             }
-            Thread thread = new Thread(new CHandler(clientsocket));          //Test multi connexion
+            Thread thread = new Thread(new CHandler(clientsocket,this));          //Test multi connexion
             thread.start();
-            /*try {
-                clientsocket = serversocket.accept();
-                System.out.println("Client connecté !");
-                clientsocket.close();
-            } catch (IOException ex) {
-                Logger.getLogger(MultiClient.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
         }
     }
+    
     public void welcome(Socket client_socket)
     {
         PrintWriter writer;
@@ -56,5 +51,24 @@ public class MultiClient implements Runnable {
         writer.flush();
         } catch (IOException ex) {
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
+    }
+    
+    synchronized public void broadcast(String message)
+    {
+        PrintWriter out;
+        for (int i = 0; i < tabClients.size(); i++)
+        {
+            out = (PrintWriter) tabClients.elementAt(i);
+            if (out != null)
+            {
+            out.println(message);
+            out.flush(); 
+            }
+        }
+    }
+    
+    synchronized void addClient(PrintWriter out)
+    { 
+        tabClients.addElement(out);
     }
 }
