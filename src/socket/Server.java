@@ -27,7 +27,7 @@ public class Server {
     
     public void start()
     {
-        ServerSocket  serversocket;
+        ServerSocket serversocket;
         try
         {
             serversocket = new ServerSocket(this.port, 50, this.adress);
