@@ -56,4 +56,20 @@ public class Client {
         } catch (IOException ex) {
         Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
     }
+    
+    public String readmsg()
+    {    
+        String message=null;
+        try {
+        message=reader.readLine();
+        } catch (IOException ex) {
+        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);}
+        if(message!=null)return message; else return null;
+    }
+    
+    public void writemsg(String msg)
+    {
+        writer.println(msg);
+        writer.flush();
+    }
 }

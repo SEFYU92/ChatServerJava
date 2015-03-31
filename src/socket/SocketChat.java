@@ -9,6 +9,7 @@ import java.net.*;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.application.Application.launch;
 
 /**
  *
@@ -20,24 +21,27 @@ public class SocketChat {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        // TODO code application logic here
+        
         InetAddress address = null;
         InetAddress adgroup = InetAddress.getByName("228.5.6.7");
         try {
-        //address = InetAddress.getByName("www.google.com");
         address = InetAddress.getLocalHost();
         } catch (UnknownHostException ex) {
-            Logger.getLogger(Socket.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Logger.getLogger(Socket.class.getName()).log(Level.SEVERE, null, ex);}
+        GUI client1 = new GUI();
         
-        if(args[0].equals("s"))
+        if(args.length == 0)
+        {
+            System.out.println("option missing : <mode:s/c/mcc> <port>");
+        }
+        else if(args[0].equals("s"))
         {
             Server server = new Server(address,Integer.parseInt(args[1]));
             server.start();
         }else if(args[0].equals("c"))
         {
             Client client = new Client(address,Integer.parseInt(args[1]));
-            client.start();
+            client1.run(client);
         }else if(args[0].equals("mcc"))
         {
             MCClient client = new MCClient(Integer.parseInt(args[1]),adgroup);
